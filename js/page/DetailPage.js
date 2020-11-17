@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native'
-import DynamicTabNavigator from '../navigator/DynamicTabNavigator';
-import NavigationUtil from '../navigator/NavigationUtil';
+import {View, Text, StyleSheet, Button} from 'react-native'
 
-
-export default class HomePage extends Component{
-    
+export default class DetailPage extends Component{
     render() {
-        NavigationUtil.navigation = this.props.navigation;
-        return <DynamicTabNavigator />
+        
+        return(
+            <View style={styles.container}>
+                <Text style={styles.welcome}>DetailPage</Text>
+            </View>
+        )
     }
 }
 
