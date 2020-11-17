@@ -22,7 +22,7 @@ export default class HomePage extends Component{
                         tabBarIcon: ({tintColor, focused}) => (
                             <MaterialIcons
                                 name={'whatshot'}
-                                size={26}
+                                size={27}
                                 style={{color: tintColor}}
                             />
                         )
