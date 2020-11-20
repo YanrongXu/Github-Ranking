@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet, Button} from 'react-native'
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import {createAppContainer} from 'react-navigation';
 import NavigationUtil from '../navigator/NavigationUtil';
@@ -54,6 +54,9 @@ class PopularTab extends Component {
                 <Text onPress={() => {
                     NavigationUtil.goPage({}, 'DetailPage')
                 }}>Go to detail page</Text>
+                <Button title = {'use fetch'}onPress={() => {
+                    NavigationUtil.goPage({}, 'FetchDemoPage')
+                }} />
             </View>
         )
     }
