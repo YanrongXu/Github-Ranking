@@ -14,6 +14,19 @@ class MyPage extends Component{
                     title={'change theme'}
                     onPress={() => this.props.onThemeChange('#8a3')}
                 />
+                <Text>PopularTab</Text>
+                <Text onPress={() => {
+                    NavigationUtil.goPage({}, 'DetailPage')
+                }}>Go to detail page</Text>
+                <Button title = {'use fetch'}onPress={() => {
+                    NavigationUtil.goPage({}, 'FetchDemoPage')
+                }} />
+                <Button title = {'use AsyncStorage'}onPress={() => {
+                    NavigationUtil.goPage({}, 'AsyncStorageDemoPage')
+                }} />
+                <Button title = {'use dataStore'}onPress={() => {
+                    NavigationUtil.goPage({}, 'DataStoreDemoPage')
+                }} />
             </View>
         )
     }
