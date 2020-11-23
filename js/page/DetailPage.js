@@ -5,24 +5,35 @@ import ViewUtil from '../util/ViewUtil'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import {WebView} from 'react-native-webview'
 import NavigationUtil from '../navigator/NavigationUtil';
+import BackPressComponent from '../common/BackPressComponent'
 const THEME_COLOR = '#678'
 
 export default class DetailPage extends Component{
     constructor(props) {
         super(props)
         this.params = this.props.navigation.state.params
-        console.log('params',this.params)
         const {projectModes} = this.params
-        console.log('sss',projectModes)
         this.url = projectModes.html_url || projectModes.url
-        console.log('url',this.url)
         const title = projectModes.full_name || projectModes.name
         this.state= {
             title: title,
             url: this.url,
             canGoBack: false
         }
+        this.backPress = new BackPressComponent({backPress: () => this.onBackpress()})
     }
+
+    componentDidMount() {
+        this.backPress.componentDidMount()
+    }
+    componentWillUnmount(){ 
+        this.backPress.componentWillUnmount()
+    }
+    onBackpress() {
+        this.onBack()
+        return true
+    }
+
     onBack() {
         if (this.state.canGoBack) {
             this.webView.goBack()

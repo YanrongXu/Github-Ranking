@@ -27,9 +27,7 @@ export default class TrendingPage extends Component{
     }
     _genTabs () {
         const tabs={};
-        console.log('tabname',this.tabNames)
         Object.keys(this.tabNames).forEach((item) => {
-            console.log('item', item)
             tabs[`tab${item}`]={
                 screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={this.tabNames[item]} />,
                 navigationOptions: {
@@ -185,7 +183,9 @@ class TrendingTab extends Component {
         return <TrendingItem
             item={item}
             onSelect={() => {
-
+                NavigationUtil.goPage({
+                    projectModes: item
+                }, 'DetailPage')
             }}
         />
     }
@@ -213,7 +213,7 @@ class TrendingTab extends Component {
                     
                     data={store.projectModes}
                     renderItem={data => this.renderItem(data)}
-                    keyExtractor={item => "" + (item.id || item.name)}
+                    keyExtractor={item => "" + (item.html_url + 1 || item.url + 1)}
                     refreshControl={
                         <RefreshControl 
                             title={'Loading'}
