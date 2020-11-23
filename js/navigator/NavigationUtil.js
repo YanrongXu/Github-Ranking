@@ -17,6 +17,10 @@ export default class NavigationUtil {
         )
     }
 
+    static goBack(navigation){
+        navigation.goBack()
+    }
+
     /**
      * reset to homePage
      * @param params 
