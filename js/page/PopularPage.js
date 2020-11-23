@@ -7,11 +7,12 @@ import {connect} from 'react-redux'
 import actions from '../action/index'
 import PopularItem from '../common/PopularItem'
 import Toast from 'react-native-toast-message'
-
+import NavigationBar from '../common/NavigationBar'
+import {DeviceInfo} from 'react-native'
 
 const URL = 'https://api.github.com/search/repositories?q='
 const QUERY_STR = '&sort=stars'
-const THEME_COLOR = 'red'
+const THEME_COLOR = '#678'
 
  
 export default class PopularPage extends Component{
@@ -33,6 +34,16 @@ export default class PopularPage extends Component{
         return tabs;
     }
     render() {
+        let statusBar = {
+            backgroundColor: THEME_COLOR,
+            barStyle: 'light-content',
+        }
+
+        let navigationBar = <NavigationBar 
+            title = {'Hot'}
+            statusBar= {statusBar}
+            style={{backgroundColor: THEME_COLOR}}
+        />
         const TabNavigator = createAppContainer(createMaterialTopTabNavigator(
             this._genTabs(),
             {
@@ -42,7 +53,6 @@ export default class PopularPage extends Component{
                     scrollEnabled: true,
                     style: {
                         backgroundColor: '#a67',
-                        marginTop: 33
                     },
                     indicatorStyle: styles.indicatorStyle,
                     labelStyle: styles.labelStyle
@@ -52,11 +62,14 @@ export default class PopularPage extends Component{
 
         return(
             <View style={styles.container}>
+                {navigationBar}
                 <TabNavigator />
             </View>
         )
     }
 }
+
+
 const pageSize = 10
 class PopularTab extends Component {
     constructor(props){
@@ -72,13 +85,15 @@ class PopularTab extends Component {
         const store = this._store()
         const url = this.genFetchUrl(this.storeName)
         if (loadMore) {
-            onLoadMorePopular(this.storeName, ++store.pageIndex, pageSize, store.items, callback => {
+            onLoadMorePopular(this.storeName, ++store.pageIndex, pageSize, store.items, callBack => {
                 Toast.show({
+                    // https://github.com/calintamas/react-native-toast-message
                     type: 'info',
                     position: 'bottom',
-                    text1: 'Sorry, there is no more page',
-                    visibilityTime: 8000,
-                    bottomOffset: 40,
+                    text1: "Sorry, You Can't Scoll Down Anymore",
+                    visibilityTime: 20000,
+                    bottomOffset: 500,
+                    autoHide: true,
                   });
             })
         } else {
@@ -187,7 +202,8 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     tabStyle: {
-        minWidth: 50
+        // minWidth: 50
+        padding: 0
     },
     indicatorStyle: {
         height: 2,

@@ -1,22 +1,28 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { call } from 'react-native-reanimated';
+export const FLAG_STORAGE = {flag_popular: 'popular', flag_trending: 'trending'}
+
 
 export default class DataStore {
 
-    fetchData(url) {
+
+
+    fetchData(url, flag) {
         return new Promise((resolve, reject) => {
             this.fetchLocalData(url).then((wrapData) => {
                 if (wrapData && DataStore.checkTimestampValid(wrapData.timestamp)) {
+                 
                     resolve(wrapData);
                 } else {
-                    this.fetchNetData(url).then((data) => {
+                    this.fetchNetData(url, flag).then((data) => {
+                        
                         resolve(this._wrapData(data));
                     }).catch((error) => {
                         reject(error)
                     })
                 }
             }).catch((error) => {
-                this.fetchNetData(url).then((data) => {
+                this.fetchNetData(url, flag).then((data) => {
+                    
                     resolve(this._wrapData(data));
                 }).catch((error) => {
                     reject(error)
@@ -49,9 +55,11 @@ export default class DataStore {
         })
     }
 
-    fetchNetData(url) {
+    fetchNetData(url, flag) {
+        console.log('i am hrer')
         return new Promise((resolve, reject) => {
-            fetch(url)
+            if (flag !== FLAG_STORAGE.flag_trending) {
+                fetch(url)
                 .then((response) => {
                     if (response.ok) {
                         return response.json()
@@ -65,6 +73,22 @@ export default class DataStore {
                 .catch((error) => {
                     reject(error)
                 })
+            } else {
+                fetch(url)
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json()
+                    }
+                    throw new Error('Network Error')
+                })
+                .then((data) => {
+                    this.saveData(url, data)
+                    resolve(data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+            }
         })
     }
 

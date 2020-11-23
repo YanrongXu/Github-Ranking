@@ -2,10 +2,10 @@ import React, {Component} from 'react'
 import {Text, TouchableOpacity, View, StyleSheet, Image} from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
-export default class PopularItem extends Component {
+export default class TrendingItem extends Component {
     render() {
         const {item} = this.props
-        if (!item || !item.owner) return null;
+        if (!item) return null;
         let favoriteButton = <TouchableOpacity
             onPress={() => {
 
@@ -25,22 +25,21 @@ export default class PopularItem extends Component {
             >
                 <View style={styles.cell_container}>
                     <Text style={styles.title}>
-                        {item.full_name}
+                        {item.name}
                     </Text>
                     <Text style={styles.description}>
-                        
-                        {item.description = (!item.description || item.description.length < 150) ? item.description : item.description.substring(0, 150) + "..."}
+                        {item.description}
                     </Text>
                     <View style={styles.row}>
                         <View style={styles.row}>
-                            <Text>Author:</Text>
-                            <Image style={{height: 22, width: 22}}
-                                source={{uri: item.owner.avatar_url}} 
-                            />
-                        </View>
-                        <View style={{flexDirection: 'row' ,justifyContent: 'space-between'}}>
-                            <Text>Star:</Text>
-                            <Text>{item.stargazers_count}</Text>
+                            <Text>Built by: </Text>
+                            {item.builtBy.map((result, i, arr) => {
+                                return <Image
+                                        key={i}
+                                        style={{height: 22, width: 22, margin: 2}}
+                                        source={{uri: arr[i].avatar}}
+                                />
+                            })}
                         </View>
                         {favoriteButton}
                     </View>

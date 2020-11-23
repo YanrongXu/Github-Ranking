@@ -1,4 +1,3 @@
-import types from '../types'
 import Types from '../types'
 import DataStore, {FLAG_STORAGE} from '../../expand/dao/DataStore'
 import {handleData} from '../ActionUtil'
@@ -8,14 +7,14 @@ import {handleData} from '../ActionUtil'
  * @param url
  * @returns {function (*=)}
  */
-export function onLoadPopularData(storeName, url, pageSize) {
+export function onRefreshTrending(storeName, url, pageSize) {
     return dispatch => {
-        dispatch({type: Types.POPULAR_REFRESH, storeName: storeName});
+        dispatch({type: Types.TRENDING_REFRESH, storeName: storeName});
         let dataStore = new DataStore();
-        dataStore.fetchData(url, FLAG_STORAGE.flag_popular) // async auction and datastream
+        dataStore.fetchData(url, FLAG_STORAGE.flag_trending) // async auction and datastream
             .then(data => {
-                console.log('popular data',data)
-                handleData(Types.POPULAR_REFRESH_SUCCESS,dispatch, storeName, data, pageSize)
+                console.log('trending data',data)
+                handleData(Types.TRENDING_REFRESH_SUCCESS, dispatch, storeName, data, pageSize)
             })
             .catch(error => {
                 console.log(error)
@@ -36,7 +35,7 @@ export function onLoadPopularData(storeName, url, pageSize) {
  * @param {*} dataArray the whole data
  * @param {*} callBack page communcation: such as error
  */
-export function onLoadMorePopular(storeName, pageIndex, pageSize, dataArray=[], callBack) {
+export function onLoadMoreTrending(storeName, pageIndex, pageSize, dataArray=[], callBack) {
     return dispatch => {
         setTimeout(() => {
             if ((pageIndex-1)*pageSize >= dataArray.length) {
@@ -44,7 +43,7 @@ export function onLoadMorePopular(storeName, pageIndex, pageSize, dataArray=[], 
                     callBack('no more')
                 }
                 dispatch({
-                    type: Types.POPULAR_LOAD_MORE_FAIL,
+                    type: Types.TRENDING_LOAD_MORE_FAIL,
                     error: 'no more',
                     storeName: storeName,
                     pageIndex: --pageIndex,
@@ -53,7 +52,7 @@ export function onLoadMorePopular(storeName, pageIndex, pageSize, dataArray=[], 
             } else {
                 let max = pageSize * pageIndex > dataArray.length ? dataArray.length : pageSize * pageIndex;
                 dispatch({
-                    type: Types.POPULAR_LOAD_MORE_SUCCESS,
+                    type: Types.TRENDING_LOAD_MORE_SUCCESS,
                     storeName,
                     pageIndex,
                     projectModes: dataArray.slice(0, max)
@@ -62,3 +61,4 @@ export function onLoadMorePopular(storeName, pageIndex, pageSize, dataArray=[], 
         }, 500);
     }
 }
+
