@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
 class HomePage extends Component{
     constructor(props){
         super(props)
-        this.backPress = new BackPressComponent({backPress: this.onBackpress()})
+        this.backPress = new BackPressComponent({backPress: () => this.onBackpress()})
      }
 
      componentDidMount() {
