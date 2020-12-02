@@ -24,7 +24,7 @@ export default function onAction(state=defaultState, action){
                 [action.storeName]: { //dyanmic setting the store
                     ...state[action.storeName],
                     items: action.items,
-                    projectModes: action.projectModes,
+                    projectModels: action.projectModels,
                     isLoading: false,
                     hideLoadingMore: false,
                     pageIndex: action.pageIndex
@@ -52,7 +52,7 @@ export default function onAction(state=defaultState, action){
                 ...state,
                 [action.storeName]: { //dyanmic setting the store
                     ...state[action.storeName],
-                    projectModes: action.projectModes,
+                    projectModels: action.projectModels,
                     hideLoadingMore: false,
                     pageIndex: action.pageIndex
                 }
