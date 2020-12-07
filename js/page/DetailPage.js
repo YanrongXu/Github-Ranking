@@ -13,7 +13,8 @@ export default class DetailPage extends Component{
         super(props)
         this.params = this.props.navigation.state.params
         const {projectModel} = this.params
-        this.url = projectModel.item.html_url || projectModel.url
+        console.log('prj',projectModel)
+        this.url = projectModel.item.html_url || projectModel.item.url
         const title = projectModel.item.full_name || projectModel.item.name
         this.state= {
             title: title,
@@ -26,7 +27,7 @@ export default class DetailPage extends Component{
     componentDidMount() {
         this.backPress.componentDidMount()
     }
-    componentWillUnmount(){ 
+    componentWillUnmount(){
         this.backPress.componentWillUnmount()
     }
     onBackpress() {
@@ -49,7 +50,7 @@ export default class DetailPage extends Component{
 
                     }}
                 >
-                    <FontAwesome 
+                    <FontAwesome
                         name={'star-o'}
                         size={20}
                         style={{color: 'white', marginRight: 10}}

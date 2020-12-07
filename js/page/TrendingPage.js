@@ -13,10 +13,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 const EVENT_TYPE_TIME_SPAN_CHANGE = 'EVENT_TYPE_TIME_SPAN_CHANGE'
 const URL = 'https://friendly-engelbart-07ecc5.netlify.app/?language='
 import TrendingDialog, { TimeSpans } from '../common/TrendingDialog'
+import FavoriteDao from "../expand/dao/FavoriteDao";
+import { FLAG_STORAGE } from "../expand/dao/DataStore";
+import FavoriteUtil from "../util/FavoriteUtil";
 const SINCE = '&since=daliy'
 const THEME_COLOR = '#678'
+const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending)
 
- 
+
 export default class TrendingPage extends Component{
     constructor(props){
         super(props);
@@ -43,7 +47,7 @@ export default class TrendingPage extends Component{
             <TouchableOpacity
                 ref='button'
                 underlayColor='transparent'
-                onPress={() => this.dialog.show()}  
+                onPress={() => this.dialog.show()}
             >
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Text style={{
@@ -70,7 +74,7 @@ export default class TrendingPage extends Component{
         DeviceEventEmitter.emit(EVENT_TYPE_TIME_SPAN_CHANGE, tab)
     }
     renderTrendingDialog() {
-        return <TrendingDialog 
+        return <TrendingDialog
             ref={dialog => this.dialog = dialog}
             onSelect = {tab => this.onSelectTimeSpan(tab)}
         />
@@ -102,7 +106,7 @@ export default class TrendingPage extends Component{
             barStyle: 'light-content',
         }
 
-        let navigationBar = <NavigationBar 
+        let navigationBar = <NavigationBar
             titleView={this.renderTitleView()}
             statusBar= {statusBar}
             style={{backgroundColor: THEME_COLOR}}
@@ -145,7 +149,7 @@ class TrendingTab extends Component {
         const store = this._store()
         const url = this.genFetchUrl(this.storeName)
         if (loadMore) {
-            onLoadMoreTrending(this.storeName, ++store.pageIndex, pageSize, store.items, callBack => {
+            onLoadMoreTrending(this.storeName, ++store.pageIndex, pageSize, store.items, favoriteDao ,callBack => {
                 Toast.show({
                     // https://github.com/calintamas/react-native-toast-message
                     type: 'info',
@@ -157,10 +161,10 @@ class TrendingTab extends Component {
                   });
             })
         } else {
-            onRefreshTrending(this.storeName, url)
+            onRefreshTrending(this.storeName, url, pageSize, favoriteDao)
         }
     }
-    
+
     _store() {
         const {trending} = this.props
         let store = trending[this.storeName]
@@ -181,12 +185,13 @@ class TrendingTab extends Component {
     renderItem(data) {
         const item = data.item
         return <TrendingItem
-            item={item}
+            projectModel={item}
             onSelect={() => {
                 NavigationUtil.goPage({
-                    projectModels: item
+                    projectModel: item
                 }, 'DetailPage')
             }}
+            onFavorite={(item, isFavorite) => FavoriteUtil.onFavorite(favoriteDao,item, isFavorite, FLAG_STORAGE.flag_trending)}
         />
     }
     genIndicator() {
@@ -200,7 +205,7 @@ class TrendingTab extends Component {
     }
 
     render() {
-        let store = this._store() 
+        let store = this._store()
         if (!store) {
             store = {
                 items: [],
@@ -210,12 +215,12 @@ class TrendingTab extends Component {
         return (
             <View style={styles.container}>
                 <FlatList
-                    
+
                     data={store.projectModels}
                     renderItem={data => this.renderItem(data)}
-                    keyExtractor={item => "" + (item.html_url + 1 || item.url + 1)}
+                    keyExtractor={item => "" + item.item.name}
                     refreshControl={
-                        <RefreshControl 
+                        <RefreshControl
                             title={'Loading'}
                             titleColor={THEME_COLOR}
                             colors={[THEME_COLOR]}
@@ -238,7 +243,7 @@ class TrendingTab extends Component {
                     onMomentumScrollBegin = {() => {
                         this.canLoadMore = true;
                     }}
-                /> 
+                />
             </View>
         )
     }
@@ -248,8 +253,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onRefreshTrending: (storeName, url) => dispatch(actions.onRefreshTrending(storeName, url)),
-    onLoadMoreTrending: (storeName, pageIndex, pageSize, items, callBack) => dispatch(actions.onLoadMoreTrending(storeName, pageIndex, pageSize, items, callBack))
+    onRefreshTrending: (storeName, url, pageSize, favoriteDao) => dispatch(actions.onRefreshTrending(storeName, url, pageSize, favoriteDao)),
+    onLoadMoreTrending: (storeName, pageIndex, pageSize, items, favoriteDao, callBack) => dispatch(actions.onLoadMoreTrending(storeName, pageIndex, pageSize, items, favoriteDao, callBack))
 })
 
 const TrendingTabPage = connect(mapStateToProps,mapDispatchToProps)(TrendingTab)
@@ -259,7 +264,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     welcome: {
-        fontSize: 20, 
+        fontSize: 20,
         textAlign: 'center',
         margin: 10,
     },
