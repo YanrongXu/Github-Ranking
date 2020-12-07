@@ -33,6 +33,7 @@ export function handleData(
 export async function _projectModels(showItems, favoriteDao, callback) {
   let keys = [];
   try {
+    // Get favorite Key
     keys = await favoriteDao.getFavoriteKeys();
   } catch (e) {
     console.log(e);

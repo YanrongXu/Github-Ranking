@@ -1,14 +1,13 @@
-import { FLAG_STORAGE } from "../expand/dao/DataStore";
+import {FLAG_STORAGE} from '../expand/dao/DataStore';
 
 export default class FavoriteUtil {
-
-    static onFavorite(favoriteDao, item, isFavorite, flag) {
-        console.log('item ss',item)
-        const key = flag === FLAG_STORAGE.flag_trending ? item.full_name : item.id.toString()
-        if (isFavorite) {
-            favoriteDao.saveFavoriteItem(key, JSON.stringify(item))
-        } else {
-            favoriteDao.removeFavoriteItem(key)
-        }
+  static onFavorite(favoriteDao, item, isFavorite, flag) {
+    const key =
+      flag === FLAG_STORAGE.flag_trending ? item.avatar : item.id.toString();
+    if (isFavorite) {
+      favoriteDao.saveFavoriteItem(key, JSON.stringify(item));
+    } else {
+      favoriteDao.removeFavoriteItem(key);
     }
+  }
 }

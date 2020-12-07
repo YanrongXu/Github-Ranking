@@ -4,7 +4,7 @@ export default class Utils {
       return false;
     }
     for (let i = 0, len = keys.length; i < len; i++) {
-      let id = item.id ? item.id : item.full_name;
+      let id = item.id ? item.id : item.avatar;
       if (id.toString() === keys[i]) {
         return true;
       }

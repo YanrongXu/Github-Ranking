@@ -18,7 +18,7 @@ const QUERY_STR = '&sort=stars'
 const THEME_COLOR = '#678'
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular)
 
- 
+
 export default class PopularPage extends Component{
     constructor(props){
         super(props);
@@ -43,7 +43,7 @@ export default class PopularPage extends Component{
             barStyle: 'light-content',
         }
 
-        let navigationBar = <NavigationBar 
+        let navigationBar = <NavigationBar
             title = {'Hot'}
             statusBar= {statusBar}
             style={{backgroundColor: THEME_COLOR}}
@@ -104,7 +104,7 @@ class PopularTab extends Component {
             onLoadPopularData(this.storeName, url, pageSize, favoriteDao)
         }
     }
-    
+
     _store() {
         const {popular} = this.props
         let store = popular[this.storeName]
@@ -145,16 +145,15 @@ class PopularTab extends Component {
     }
 
     render() {
-        let store = this._store() 
+        let store = this._store()
         return (
             <View style={styles.container}>
                 <FlatList
-                    
                     data={store.projectModels}
                     renderItem={data => this.renderItem(data)}
                     keyExtractor={item => "" + item.item.id}
                     refreshControl={
-                        <RefreshControl 
+                        <RefreshControl
                             title={'Loading'}
                             titleColor={THEME_COLOR}
                             colors={[THEME_COLOR]}
@@ -177,7 +176,7 @@ class PopularTab extends Component {
                     onMomentumScrollBegin = {() => {
                         this.canLoadMore = true;
                     }}
-                /> 
+                />
             </View>
         )
     }
@@ -198,7 +197,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     welcome: {
-        fontSize: 20, 
+        fontSize: 20,
         textAlign: 'center',
         margin: 10,
     },

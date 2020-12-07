@@ -5,9 +5,11 @@ import {handleData} from '../ActionUtil'
  * get the popular data from github async action
  * @param storeName
  * @param url
+ * @param pageSize
+ * @param favoriteDao
  * @returns {function (*=)}
  */
-export function onRefreshTrending(storeName, url, pageSize) {
+export function onRefreshTrending(storeName, url, pageSize, favoriteDao) {
     return dispatch => {
         dispatch({type: Types.TRENDING_REFRESH, storeName: storeName});
         let dataStore = new DataStore();
@@ -19,7 +21,7 @@ export function onRefreshTrending(storeName, url, pageSize) {
             .catch(error => {
                 console.log(error)
                 dispatch({
-                    type: Types.POPULAR_REFRESH_FAIL, 
+                    type: Types.POPULAR_REFRESH_FAIL,
                     storeName,
                     error
                 });
@@ -29,7 +31,7 @@ export function onRefreshTrending(storeName, url, pageSize) {
 
 /**
  * loadMore
- * @param {*} storeName 
+ * @param {*} storeName
  * @param {*} pageIndex page
  * @param {*} pageSize how many project on the page
  * @param {*} dataArray the whole data
