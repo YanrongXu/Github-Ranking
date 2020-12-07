@@ -9,9 +9,10 @@ export default class FavoriteDao {
      * favorite function, save the favorite item
      * @param {*} key id for the item
      * @param {*} value value for the item
-     * @param {*} callback 
+     * @param {*} callback
      */
     saveFavoriteItem(key, value, callback) {
+        console.log('key',key)
         AsyncStorage.setItem(key, value, (error, result) => {
             if (!error) {
                 this.updataFavoriteKeys(key, true);
@@ -20,7 +21,7 @@ export default class FavoriteDao {
     }
     /**
      * update the favorite key set
-     * @param {*} key 
+     * @param {*} key
      * @param {*} isAdd true add, false delete
      */
     updataFavoriteKeys(key, isAdd) {

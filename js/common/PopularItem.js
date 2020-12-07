@@ -8,24 +8,24 @@ export default class PopularItem extends BaseItem {
         const {projectModel} = this.props
         const {item} = projectModel
         if (!item || !item.owner) return null;
-        
+
         return (
             <TouchableOpacity
-                onPress={this.props.onSelect}
+                onPress={() => this.onItemClick()}
             >
                 <View style={styles.cell_container}>
                     <Text style={styles.title}>
                         {item.full_name}
                     </Text>
                     <Text style={styles.description}>
-                        
+
                         {item.description = (!item.description || item.description.length < 150) ? item.description : item.description.substring(0, 150) + "..."}
                     </Text>
                     <View style={styles.row}>
                         <View style={styles.row}>
                             <Text>Author:</Text>
                             <Image style={{height: 22, width: 22}}
-                                source={{uri: item.owner.avatar_url}} 
+                                source={{uri: item.owner.avatar_url}}
                             />
                         </View>
                         <View style={{flexDirection: 'row' ,justifyContent: 'space-between'}}>
