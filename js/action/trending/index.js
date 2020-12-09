@@ -71,7 +71,6 @@ export function onLoadMoreTrending(
           pageSize * pageIndex > dataArray.length
             ? dataArray.length
             : pageSize * pageIndex;
-        console.log('get here', max);
         _projectModels(dataArray.slice(0, max), favoriteDao, (data) => {
           dispatch({
             type: Types.TRENDING_LOAD_MORE_SUCCESS,
@@ -83,4 +82,21 @@ export function onLoadMoreTrending(
       }
     }, 500);
   };
+}
+
+export function onFlushTrendingFavorite(storeName, pageIndex, pageSize, dataArray= [], favoriteDao) {
+  return dispatch => {
+    let max =
+      pageSize * pageIndex > dataArray.length
+        ? dataArray.length
+        : pageSize * pageIndex;
+    _projectModels(dataArray.slice(0, max), favoriteDao, (data) => {
+      dispatch({
+        type: Types.FLUSH_TRENDING_FAVORITE,
+        storeName,
+        pageIndex,
+        projectModels: data,
+      });
+    })
+  }
 }

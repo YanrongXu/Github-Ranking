@@ -11,6 +11,7 @@ import ProjectModel from '../../model/ProjectModel';
  * @returns {function(*)}
  */
 export function onLoadFavoriteData(flag, isShowLoading) {
+  console.log('flag',flag)
   return (dispatch) => {
     if (isShowLoading) {
       dispatch({type: Types.FAVORITE_LOAD_DATA, storeName: flag});

@@ -16,6 +16,7 @@ import TrendingDialog, { TimeSpans } from '../common/TrendingDialog'
 import FavoriteDao from "../expand/dao/FavoriteDao";
 import { FLAG_STORAGE } from "../expand/dao/DataStore";
 import FavoriteUtil from "../util/FavoriteUtil";
+import EventTypes from "../util/EventTypes";
 const SINCE = '&since=daliy'
 const THEME_COLOR = '#678'
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending)
@@ -130,22 +131,33 @@ class TrendingTab extends Component {
         const {tabLabel, timeSpan} = this.props
         this.storeName = tabLabel
         this.timeSpan = timeSpan
+        this.isFavoriteChanged = false
     }
     componentDidMount() {
-        this.loadData()
-        this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE, (timeSpan) => {
-            this.timeSpan = timeSpan
-            this.loadData()
-        })
-    }
-    componentWillUnmount() {
-        if (this.timeSpanChangeListener) {
-            this.timeSpanChangeListener.remove()
-        }
+        this.loadData();
+        DeviceEventEmitter.addListener(
+          EventTypes.favorite_change_trending,
+          (this.favoriteChangeListener = () => {
+              this.isFavoriteChanged = true;
+          }),
+        );
+        DeviceEventEmitter.addListener(
+          EventTypes.bottom_tab_select,
+          (this.bottomTabSelectListener = (data) => {
+              if (data.to === 1 && this.isFavoriteChanged) {
+                  this.loadData(null, true);
+              }
+          }),
+        );
     }
 
-    loadData(loadMore) {
-        const {onRefreshTrending, onLoadMoreTrending} = this.props
+    componentWillUnmount() {
+        DeviceEventEmitter.removeListener(this.favoriteChangeListener);
+        DeviceEventEmitter.removeListener(this.bottomTabSelectListener);
+    }
+
+    loadData(loadMore, refreshFavorite) {
+        const {onRefreshTrending, onLoadMoreTrending, onFlushTrendingFavorite} = this.props
         const store = this._store()
         const url = this.genFetchUrl(this.storeName)
         if (loadMore) {
@@ -160,6 +172,8 @@ class TrendingTab extends Component {
                     autoHide: true,
                   });
             })
+        } else if (refreshFavorite){
+            onFlushTrendingFavorite(this.storeName, store.pageIndex, pageSize, store.items, favoriteDao)
         } else {
             onRefreshTrending(this.storeName, url, pageSize, favoriteDao)
         }
@@ -256,7 +270,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onRefreshTrending: (storeName, url, pageSize, favoriteDao) => dispatch(actions.onRefreshTrending(storeName, url, pageSize, favoriteDao)),
-    onLoadMoreTrending: (storeName, pageIndex, pageSize, items, favoriteDao, callBack) => dispatch(actions.onLoadMoreTrending(storeName, pageIndex, pageSize, items, favoriteDao, callBack))
+    onLoadMoreTrending: (storeName, pageIndex, pageSize, items, favoriteDao, callBack) => dispatch(actions.onLoadMoreTrending(storeName, pageIndex, pageSize, items, favoriteDao, callBack)),
+    onFlushTrendingFavorite: (storeName, pageIndex, pageSize, items, favoriteDao) => dispatch(actions.onFlushTrendingFavorite(storeName, pageIndex, pageSize, items, favoriteDao))
 })
 
 const TrendingTabPage = connect(mapStateToProps,mapDispatchToProps)(TrendingTab)

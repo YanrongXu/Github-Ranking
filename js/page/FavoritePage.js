@@ -43,7 +43,7 @@ export default class FavoritePage extends Component {
 
     let navigationBar = (
       <NavigationBar
-        title={'Hot'}
+        title={'Favorite'}
         statusBar={statusBar}
         style={{backgroundColor: THEME_COLOR}}
       />
@@ -133,7 +133,6 @@ class FavoriteTab extends Component {
   onFavorite(item, isFavorite) {
       FavoriteUtil.onFavorite(this.favoriteDao, item, isFavorite, this.props.flag)
       if (this.storeName === FLAG_STORAGE.flag_popular) {
-          console.log('run1')
           DeviceEventEmitter.emit(EventTypes.favorite_change_popular)
       } else {
           DeviceEventEmitter.emit(EventTypes.favorite_change_trending)
@@ -164,6 +163,7 @@ class FavoriteTab extends Component {
 
   render() {
     let store = this._store();
+    console.log('sot', store)
     return (
       <View style={styles.container}>
         <FlatList
