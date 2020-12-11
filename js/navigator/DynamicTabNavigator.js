@@ -10,7 +10,6 @@ import {Component} from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator, BottomTabBar} from 'react-navigation-tabs';
 import {connect} from 'react-redux';
-import EventBus from 'react-native-event-bus';
 import EventTypes from '../util/EventTypes';
 import {DeviceEventEmitter} from 'react-native'
 

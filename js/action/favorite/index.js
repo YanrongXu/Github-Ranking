@@ -19,6 +19,7 @@ export function onLoadFavoriteData(flag, isShowLoading) {
     new FavoriteDao(flag)
       .getAllItems()
       .then((items) => {
+          console.log('items', items)
         let resultData = [];
         for (let i = 0, len = items.length; i < len; i++) {
           resultData.push(new ProjectModel(items[i], true));

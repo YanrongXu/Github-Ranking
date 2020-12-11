@@ -207,7 +207,7 @@ class TrendingTab extends Component {
                     callback
                 }, 'DetailPage')
             }}
-            onFavorite={(item, isFavorite) => FavoriteUtil.onFavorite(favoriteDao,item, isFavorite, FLAG_STORAGE.flag_trending)}
+            onFavorite={(item, isFavorite) => FavoriteUtil.onFavorite(favoriteDao, item, isFavorite, FLAG_STORAGE.flag_trending)}
         />
     }
     genIndicator() {

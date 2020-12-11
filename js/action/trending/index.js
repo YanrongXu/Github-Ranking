@@ -23,7 +23,7 @@ export function onRefreshTrending(storeName, url, pageSize, favoriteDao) {
           storeName,
           data,
           pageSize,
-          favoriteDao
+          favoriteDao,
         );
       })
       .catch((error) => {
@@ -84,8 +84,14 @@ export function onLoadMoreTrending(
   };
 }
 
-export function onFlushTrendingFavorite(storeName, pageIndex, pageSize, dataArray= [], favoriteDao) {
-  return dispatch => {
+export function onFlushTrendingFavorite(
+  storeName,
+  pageIndex,
+  pageSize,
+  dataArray = [],
+  favoriteDao,
+) {
+  return (dispatch) => {
     let max =
       pageSize * pageIndex > dataArray.length
         ? dataArray.length

@@ -53,7 +53,6 @@ export default class DetailPage extends Component {
       this.setState({
           isFavorite: isFavorite
       })
-      console.log('prjs', projectModel)
       let key = projectModel.item.id ? projectModel.item.id.toString() : projectModel.item.name
       console.log('key',key)
       if (projectModel.isFavorite) {

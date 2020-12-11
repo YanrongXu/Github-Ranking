@@ -1,4 +1,3 @@
-import types from '../types';
 import Types from '../types';
 import DataStore, {FLAG_STORAGE} from '../../expand/dao/DataStore';
 import {handleData, _projectModels} from '../ActionUtil';
