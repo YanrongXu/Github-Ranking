@@ -1,0 +1,52 @@
+{
+  "aboutMe": {
+    "Tutorial": {
+      "name": "Tutorial",
+      "icon": "ios-bookmarks",
+      "items": [
+        {
+          "title": "Github Trending App",
+          "url": "https://github.com/YanrongXu/Github-Ranking"
+        }
+      ]
+    },
+    "Blog": {
+      "name": "Web Page",
+      "icon": "ios-laptop",
+      "items": [
+        {
+          "title": "Portfolio",
+          "url": "https://yanrongxu.com"
+        },
+      ]
+    },
+    "Contact": {
+      "name": "Contact",
+      "icon": "ios-contacts",
+      "items": {
+        "Email": {
+          "title": "Email",
+          "account": "8xuyanrong@gmail.com"
+        }
+      }
+    }
+  },
+  "info": {
+    "html_url": "https://github.com/YanrongXu",
+    "url": "https://github.com/YanrongXu",
+    "currentRepoUrl": "https://github.com/YanrongXu/Github-Ranking"
+  },
+  "author": {
+    "name": "Yanrong Xu",
+    "description": "Focus on Full Stack Web Development",
+    "avatar": "http://avatar.csdn.net/1/1/E/1_fengyuzhengfan.jpg",
+    "backgroundImg": "https://www.devio.org/io/GitHubPopular/img/for_githubpopular_about_me.jpg",
+    "url": "https://www.yanrongxu.org/"
+  },
+  "app": {
+    "name": "GitHub Popular",
+    "description": "Explore the next hottest project on Github, using react native to work on both ios and android",
+    "avatar": "https://www.devio.org/io/GitHubPopular/img/ic_app.png",
+    "backgroundImg": "https://www.devio.org/io/GitHubPopular/img/for_githubpopular_about_me.jpg"
+  }
+}

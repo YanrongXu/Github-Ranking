@@ -6,43 +6,29 @@ import NavigationBar from '../common/NavigationBar'
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import {MORE_MENU} from "../common/MORE_MENU";
-import GlobalStyles from "../res/GlobalStyles";
+import GlobalStyles from "../res/styles/GlobalStyles";
 import ViewUtil from "../util/ViewUtil";
+import NavigationUtil from "../navigator/NavigationUtil";
 
 const THEME_COLOR = '#678'
 
 class MyPage extends Component{
-    getRightButton () {
-        return <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-                onPress={() => {
 
-                }}
-            >
-                <View style={{padding: 5, marginRight: 8}}>
-                    <Feather
-                        name={'search'}
-                        size={24}
-                        style={{color:' white'}}
-                    />
-                </View>
-            </TouchableOpacity>
-        </View>
-    }
-
-    getLeftButton(callBack) {
-        return <TouchableOpacity
-            onPress={callBack}
-            style={{padding: 8, paddingLeft: 12}}
-        >
-            <Ionicons
-                name={'ios-arrow-back'}
-                size={26}
-                style={{color: 'white'}}
-            />
-        </TouchableOpacity>
-    }
     onClick(menu) {
+        let RouteName, params = {}
+        switch (menu) {
+            case MORE_MENU.Tutorial:
+                RouteName='WebViewPage'
+                params.title='Tutorial'
+                params.url='https://github.com/YanrongXu/Github-Ranking'
+                break
+            case MORE_MENU.About:
+                RouteName = 'AboutPage'
+                break
+        }
+        if (RouteName) {
+            NavigationUtil.goPage(params, RouteName)
+        }
     }
     getItem(menu) {
         return ViewUtil.getMenuItem(() => this.onClick(menu), menu, THEME_COLOR)
@@ -57,8 +43,6 @@ class MyPage extends Component{
             <NavigationBar
                 title={'Setting'}
                 statusBar={statusBar}
-                rightButton={this.getRightButton()}
-                leftButton={this.getLeftButton()}
                 style={{backgroundColor: THEME_COLOR}}
             />
 
