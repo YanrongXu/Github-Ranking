@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, Button, TouchableOpacity, ScrollView} from 'react-native'
 import {connect} from 'react-redux'
 import actions from '../action'
 import NavigationBar from '../common/NavigationBar'
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import {MORE_MENU} from "../common/MORE_MENU";
+import GlobalStyles from "../res/GlobalStyles";
+import ViewUtil from "../util/ViewUtil";
 
 const THEME_COLOR = '#678'
 
@@ -39,7 +42,11 @@ class MyPage extends Component{
             />
         </TouchableOpacity>
     }
-
+    onClick(menu) {
+    }
+    getItem(menu) {
+        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, THEME_COLOR)
+    }
     render () {
         let statusBar = {
             backgroundColor: THEME_COLOR,
@@ -48,7 +55,7 @@ class MyPage extends Component{
 
         let navigationBar =
             <NavigationBar
-                title={'我的'}
+                title={'Setting'}
                 statusBar={statusBar}
                 rightButton={this.getRightButton()}
                 leftButton={this.getLeftButton()}
@@ -56,26 +63,64 @@ class MyPage extends Component{
             />
 
         return (
-            <View style={styles.container}>
+            <View style={GlobalStyles.root_container}>
                 {navigationBar}
-                <Text style={styles.welcome}>MyPage</Text>
-                <Button
-                    title={'change theme'}
-                    onPress={() => this.props.onThemeChange('#8a3')}
-                />
-                <Text>PopularTab</Text>
-                <Text onPress={() => {
-                    NavigationUtil.goPage({}, 'DetailPage')
-                }}>Go to detail page</Text>
-                <Button title = {'use fetch'}onPress={() => {
-                    NavigationUtil.goPage({}, 'FetchDemoPage')
-                }} />
-                <Button title = {'use AsyncStorage'}onPress={() => {
-                    NavigationUtil.goPage({}, 'AsyncStorageDemoPage')
-                }} />
-                <Button title = {'use dataStore'}onPress={() => {
-                    NavigationUtil.goPage({}, 'DataStoreDemoPage')
-                }} />
+                <ScrollView>
+                    <TouchableOpacity
+                        style={styles.item}
+                        onPress={() => this.onClick(MORE_MENU.About)}
+                    >
+                        <View style={styles.about_left}>
+                            <Ionicons
+                                name={MORE_MENU.About.icon}
+                                size={40}
+                                style={{
+                                    marginRight: 10,
+                                    color: THEME_COLOR
+                                }}
+                            />
+                            <Text>Github Popular</Text>
+                        </View>
+                        <Ionicons
+                            name={'ios-arrow-forward'}
+                            size={16}
+                            style={{
+                                marginRight: 10,
+                                alignSelf: 'center',
+                                color: THEME_COLOR,
+                            }}
+                        />
+                    </TouchableOpacity>
+                    <View style={GlobalStyles.line} />
+                    {this.getItem(MORE_MENU.Tutorial)}
+                    {/*Trending setting*/}
+                    <Text style={styles.groupTitle}>Trending</Text>
+                    {/*Customize Language*/}
+                    {this.getItem(MORE_MENU.Custom_Language)}
+                    {/*Sorting Language*/}
+                    <View style={GlobalStyles.line}/>
+                    {this.getItem(MORE_MENU.Sort_Language)}
+                    {/*Hot setting*/}
+                    <Text style={styles.groupTitle}>Hot</Text>
+                    {/*Customize Key*/}
+                    {this.getItem(MORE_MENU.Custom_Key)}
+                    {/*Key Sorting*/}
+                    <View style={GlobalStyles.line}/>
+                    {this.getItem(MORE_MENU.Sort_Key)}
+                    {/*Remove key*/}
+                    <View style={GlobalStyles.line}/>
+                    {this.getItem(MORE_MENU.Remove_Key)}
+                    {/*Global Setting*/}
+                    <Text style={styles.groupTitle}/>
+                    {/*Customize Theme*/}
+                    {this.getItem(MORE_MENU.Custom_Theme)}
+                    {/*About Author*/}
+                    <View style={GlobalStyles.line}/>
+                    {this.getItem(MORE_MENU.About_Author)}
+                    <View style={GlobalStyles.line}/>
+                    {/*Feedback*/}
+                    {this.getItem(MORE_MENU.Feedback)}
+                </ScrollView>
             </View>
         )
     }
@@ -86,10 +131,29 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     welcome: {
-        fontSize: 20, 
+        fontSize: 20,
         textAlign: 'center',
         margin: 10,
-    }
+    },
+    about_left: {
+        alignItems: 'center',
+        flexDirection: 'row',
+  },
+    item: {
+        backgroundColor: 'white',
+        padding: 10,
+        height: 90,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+    },
+    groupTitle: {
+        marginLeft: 10,
+        marginTop: 10,
+        marginBottom: 5,
+        fontSize: 12,
+        color: 'gray'
+    },
 })
 
 const mapDispatchToProps = dispatch => ({

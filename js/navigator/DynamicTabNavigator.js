@@ -49,7 +49,7 @@ const TABS = {
   MyPage: {
     screen: MyPage,
     navigationOptions: {
-      tabBarLabel: 'My',
+      tabBarLabel: 'Setting',
       tabBarIcon: ({tintColor, focused}) => (
         <Entypo name={'user'} size={26} style={{color: tintColor}} />
       ),

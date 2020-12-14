@@ -1,11 +1,62 @@
 import React from 'react'
-import { TouchableOpacity } from "react-native";
+import {TouchableOpacity, StyleSheet, View, Text} from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 export default class ViewUtil {
     /**
+     * get setting page item
+     * @param callback
+     * @param text
+     * @param color
+     * @param Icons
+     * @param icon
+     * @param expandableIco
+     * @return {xml}
+     */
+    static getSettingItem(callback, text, color, Icons, icon, expandableIco) {
+        return (
+            <TouchableOpacity
+                onPress={callback}
+                style={styles.setting_item_container}
+            >
+                <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                    {Icons&&icon?
+                        <Icons
+                            name={icon}
+                            size={16}
+                            style={{color: color, marginRight: 10}}
+                        />:
+                        <View style={{opacity: 1, width: 16, height: 16, marginRight: 10,}} />
+                    }
+                    <Text>{text}</Text>
+                </View>
+                <Ionicons
+                    name={expandableIco ? expandableIco : 'ios-arrow-forward'}
+                    size={16}
+                    style={{
+                        marginRight: 10,
+                        alignSelf: 'center',
+                        color: color || 'black',
+                    }}
+                />
+            </TouchableOpacity>
+        )
+    }
+
+    /**
+     * get the menu item
+     * @param callback
+     * @param menu
+     * @param color
+     * @param expandableIco
+     * @return {XML}
+     */
+    static getMenuItem(callback, menu, color, expandableIco) {
+        return ViewUtil.getSettingItem(callback, menu.name, color, menu.Icons, menu.icon, expandableIco)
+    }
+    /**
      * get the left return to prevew button
-     * @param {*} callBack 
+     * @param {*} callBack
      * @return {XML}
      */
     static getLeftBackButton(callBack) {
@@ -22,7 +73,7 @@ export default class ViewUtil {
     }
     /**
      * get the share button
-     * @param {*} callBack 
+     * @param {*} callBack
      */
     static getShareButton(callBack) {
         return <TouchableOpacity
@@ -37,3 +88,15 @@ export default class ViewUtil {
         </TouchableOpacity>
     }
 }
+
+const styles = StyleSheet.create({
+    setting_item_container: {
+        backgroundColor: 'white',
+        padding: 10,
+        height: 60,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+    },
+})
+
