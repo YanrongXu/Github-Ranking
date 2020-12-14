@@ -22,7 +22,7 @@
     },
     "Contact": {
       "name": "Contact",
-      "icon": "ios-contacts",
+      "icon": "chatbubble-ellipses-sharp",
       "items": {
         "Email": {
           "title": "Email",
