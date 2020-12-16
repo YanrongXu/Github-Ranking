@@ -87,7 +87,16 @@ export default class ViewUtil {
             />
         </TouchableOpacity>
     }
+
+    static getRightButton(title, callBack) {
+        return <TouchableOpacity
+            style={{alignItems: 'center'}}
+            onPress={callBack}>
+            <Text style={{fontSize: 20, color: '#FFFFFF', marginRight: 10}}>{title}</Text>
+        </TouchableOpacity>
+    }
 }
+
 
 const styles = StyleSheet.create({
     setting_item_container: {
