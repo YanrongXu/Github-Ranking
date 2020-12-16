@@ -17,27 +17,34 @@ import FavoriteDao from "../expand/dao/FavoriteDao";
 import { FLAG_STORAGE } from "../expand/dao/DataStore";
 import FavoriteUtil from "../util/FavoriteUtil";
 import EventTypes from "../util/EventTypes";
+import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
+import ArrayUtil from "../util/ArrayUtil";
 const SINCE = '&since=daliy'
 const THEME_COLOR = '#678'
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending)
 
 
-export default class TrendingPage extends Component{
+class TrendingPage extends Component{
     constructor(props){
         super(props);
-        this.tabNames = {'All': '', 'Java': 'Java', 'JavaScript': 'JavaScript', 'Python': 'Python', 'HTML': 'HTML', 'C': 'C', 'C#': "C%23", "C++": 'C%2B%2B', 'Go': 'Go'};
         this.state = {
             timeSpan: TimeSpans[0]
         }
+        const {onLoadLanguage} = this.props
+        onLoadLanguage(FLAG_LANGUAGE.flag_language)
+        this.preKeys = []
     }
     _genTabs () {
         const tabs={};
-        Object.keys(this.tabNames).forEach((item) => {
-            tabs[`tab${item}`]={
-                screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={this.tabNames[item]} />,
-                navigationOptions: {
-                    title: item,
-
+        const {keys} = this.props
+        this.preKeys = keys
+        keys.forEach((item, index) => {
+            if (item.checked) {
+                tabs[`tab${index}`]={
+                    screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.path} />,
+                    navigationOptions: {
+                        title: item.name,
+                    }
                 }
             }
         })
@@ -81,7 +88,7 @@ export default class TrendingPage extends Component{
         />
     }
     _tabNav() {
-        if (!this.tabNav) {
+        if (!this.tabNav || !ArrayUtil.isEqual(this.preKeys, this.props.keys)) {
             this.tabNav = createAppContainer(createMaterialTopTabNavigator(
                 this._genTabs(),
                 {
@@ -102,6 +109,7 @@ export default class TrendingPage extends Component{
     }
 
     render() {
+        const {keys} = this.props
         let statusBar = {
             backgroundColor: THEME_COLOR,
             barStyle: 'light-content',
@@ -112,17 +120,24 @@ export default class TrendingPage extends Component{
             statusBar= {statusBar}
             style={{backgroundColor: THEME_COLOR}}
         />
-        const TabNavigator = this._tabNav()
+        const TabNavigator = keys.length ? this._tabNav() : null;
         return(
             <View style={styles.container}>
                 {navigationBar}
-                <TabNavigator />
+                {TabNavigator && <TabNavigator/>}
                 {this.renderTrendingDialog()}
             </View>
         )
     }
 }
 
+const mapTrendingStateToProps = state => ({
+    keys: state.language.languages
+})
+const mapTrendingDispatchToProps = dispatch =>({
+    onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage((flag)))
+})
+export default connect(mapTrendingStateToProps, mapTrendingDispatchToProps)(TrendingPage)
 
 const pageSize = 10
 class TrendingTab extends Component {
@@ -135,6 +150,10 @@ class TrendingTab extends Component {
     }
     componentDidMount() {
         this.loadData();
+        this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE, (timeSpan) => {
+            this.timeSpan = timeSpan
+            this.loadData()
+        })
         DeviceEventEmitter.addListener(
           EventTypes.favorite_change_trending,
           (this.favoriteChangeListener = () => {
@@ -152,6 +171,9 @@ class TrendingTab extends Component {
     }
 
     componentWillUnmount() {
+        if (this.timeSpanChangeListener) {
+            this.timeSpanChangeListener.remove()
+        }
         DeviceEventEmitter.removeListener(this.favoriteChangeListener);
         DeviceEventEmitter.removeListener(this.bottomTabSelectListener);
     }
