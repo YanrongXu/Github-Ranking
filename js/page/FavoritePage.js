@@ -14,7 +14,6 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import {connect} from 'react-redux';
 import actions from '../action/index';
 import PopularItem from '../common/PopularItem';
-import Toast from 'react-native-toast-message';
 import NavigationBar from '../common/NavigationBar';
 import {DeviceEventEmitter} from 'react-native';
 import FavoriteDao from '../expand/dao/FavoriteDao';
@@ -23,21 +22,18 @@ import FavoriteUtil from '../util/FavoriteUtil';
 import TrendingItem from '../common/TrendingItem';
 import EventTypes from '../util/EventTypes';
 
-const URL = 'https://api.github.com/search/repositories?q=';
-const QUERY_STR = '&sort=stars';
-const THEME_COLOR = '#678';
-const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 
 
-export default class FavoritePage extends Component {
+
+class FavoritePage extends Component {
   constructor(props) {
     super(props);
-    this.tabNames = ['Hot', 'Trending'];
   }
 
   render() {
+      const {theme} = this.props
     let statusBar = {
-      backgroundColor: THEME_COLOR,
+      backgroundColor: theme.themeColor,
       barStyle: 'light-content',
     };
 
@@ -45,7 +41,7 @@ export default class FavoritePage extends Component {
       <NavigationBar
         title={'Favorite'}
         statusBar={statusBar}
-        style={{backgroundColor: THEME_COLOR}}
+        style={theme.styles.navBar}
       />
     );
     const TabNavigator = createAppContainer(
@@ -53,7 +49,7 @@ export default class FavoritePage extends Component {
         {
           Popular: {
             screen: (props) => (
-              <FavoriteTabPage {...props} flag={FLAG_STORAGE.flag_popular} />
+              <FavoriteTabPage {...props} flag={FLAG_STORAGE.flag_popular} theme={theme}/>
             ),
             navigationOptions: {
               title: 'Hot',
@@ -61,7 +57,7 @@ export default class FavoritePage extends Component {
           },
           Trending: {
             screen: (props) => (
-              <FavoriteTabPage {...props} flag={FLAG_STORAGE.flag_trending} />
+              <FavoriteTabPage {...props} flag={FLAG_STORAGE.flag_trending} theme={theme}/>
             ),
             navigationOptions: {
               title: 'Trending',
@@ -73,7 +69,7 @@ export default class FavoritePage extends Component {
             tabStyle: styles.tabStyle,
             upperCaseLabel: false,
             style: {
-              backgroundColor: '#a67',
+              backgroundColor: theme.themeColor,
             },
             indicatorStyle: styles.indicatorStyle,
             labelStyle: styles.labelStyle,
@@ -90,8 +86,11 @@ export default class FavoritePage extends Component {
     );
   }
 }
+const mapFavoriteStateToProps = state => ({
+    theme: state.theme.theme,
+});
+export default connect(mapFavoriteStateToProps)(FavoritePage);
 
-const pageSize = 10;
 class FavoriteTab extends Component {
   constructor(props) {
     super(props);
@@ -140,15 +139,18 @@ class FavoriteTab extends Component {
   }
 
   renderItem(data) {
+      const {theme} = this.props;
     const item = data.item;
     const Item =
       this.storeName == FLAG_STORAGE.flag_popular ? PopularItem : TrendingItem;
     return (
       <Item
+          theme={theme}
         projectModel={item}
         onSelect={(callback) => {
           NavigationUtil.goPage(
             {
+                theme,
               projectModel: item,
               flag: this.storeName,
               callback,
@@ -163,7 +165,7 @@ class FavoriteTab extends Component {
 
   render() {
     let store = this._store();
-    console.log('sot', store)
+      const {theme} = this.props;
     return (
       <View style={styles.container}>
         <FlatList
@@ -173,11 +175,11 @@ class FavoriteTab extends Component {
           refreshControl={
             <RefreshControl
               title={'Loading'}
-              titleColor={THEME_COLOR}
-              colors={[THEME_COLOR]}
+              titleColor={theme.themeColor}
+              colors={[theme.themeColor]}
               refreshing={store.isLoading}
               onRefresh={() => this.loadData(true)}
-              tintColor={THEME_COLOR}
+              tintColor={theme.themeColor}
             />
           }
         />
@@ -194,10 +196,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.onLoadFavoriteData(storeName, isShowLoading)),
 });
 
-const FavoriteTabPage = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FavoriteTab);
+const FavoriteTabPage = connect(mapStateToProps, mapDispatchToProps)(FavoriteTab);
+
 
 const styles = StyleSheet.create({
   container: {

@@ -6,7 +6,6 @@ import github from '../../res/data/github_app_config.json';
 import ParallaxScollView from 'react-native-parallax-scroll-view';
 import GlobalStyles from '../../res/styles/GlobalStyles';
 import ViewUtil from '../../util/ViewUtil';
-const THEME_COLOR = '#678';
 export const FLAG_ABOUT = {flag_about: 'about', flag_about_me: 'about_me'};
 export default class AboutCommon {
     constructor(props, updateState) {
@@ -91,10 +90,11 @@ export default class AboutCommon {
         return config
     }
     render(contentView, params){
+        const {theme}=this.props;
         const renderConfig = this.getParallaxRenderConfig(params)
         return (
             <ParallaxScollView
-                backgroundColor={THEME_COLOR}
+                backgroundColor={theme.themeColor}
                 contentBackgroundColor={GlobalStyles.backgroundColor}
                 parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
                 stickyHeaderHeight={STICK_HEADER_HEIGHT}

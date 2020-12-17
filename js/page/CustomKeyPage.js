@@ -3,37 +3,19 @@ import {
   View,
   Alert,
   StyleSheet,
-  Button,
-  FlatList,
-  RefreshControl,
-  ActivityIndicator,
-  DeviceEventEmitter,
     ScrollView
 } from 'react-native';
-import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
-import {createAppContainer} from 'react-navigation';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {connect} from 'react-redux';
 import actions from '../action/index';
-import PopularItem from '../common/PopularItem';
-import Toast from 'react-native-toast-message';
 import NavigationBar from '../common/NavigationBar';
-import FavoriteDao from '../expand/dao/FavoriteDao';
-import {FLAG_STORAGE} from '../expand/dao/DataStore';
-import FavoriteUtil from '../util/FavoriteUtil';
-import EventTypes from '../util/EventTypes';
-import {onFlushPopularFavorite} from '../action/popular';
 import LanguageDao, {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 import BackPressComponent from "../common/BackPressComponent";
 import ViewUtil from "../util/ViewUtil";
 import CheckBox from 'react-native-check-box'
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ArrayUtil from "../util/ArrayUtil";
-
-const URL = 'https://api.github.com/search/repositories?q=';
-const QUERY_STR = '&sort=stars';
 const THEME_COLOR = '#678';
-const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 
 
 class CustomKeyPage extends Component {
@@ -154,7 +136,7 @@ class CustomKeyPage extends Component {
       name={checked ? 'ios-checkbox' : 'md-square-outline'}
       size={20}
       style={{
-        color: THEME_COLOR
+        color: theme.themeColor
       }}
     />
   }
@@ -170,6 +152,7 @@ class CustomKeyPage extends Component {
     />
   }
   render() {
+    const {theme} = this.params;
     let title = this.isRemoveKey ? 'Remove Tag' : 'Customize Tag'
     title = this.params.flag === FLAG_LANGUAGE.flag_language ? 'Customize Language' : title
     let rightButtonTitle = this.isRemoveKey ? 'Remove' : 'Save'
@@ -177,7 +160,7 @@ class CustomKeyPage extends Component {
       <NavigationBar
         title={title}
         leftButton={ViewUtil.getLeftBackButton(()=> this.onBack())}
-        style={{backgroundColor: THEME_COLOR}}
+        style={theme.styles.navBar}
         rightButton={ViewUtil.getRightButton(rightButtonTitle, () => this.onSave())}
       />
     return <View style={styles.container}>

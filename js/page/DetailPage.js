@@ -7,7 +7,6 @@ import {WebView} from 'react-native-webview';
 import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import FavoriteDao from '../expand/dao/FavoriteDao';
-const THEME_COLOR = '#678';
 
 export default class DetailPage extends Component {
   constructor(props) {
@@ -85,6 +84,7 @@ export default class DetailPage extends Component {
     });
   }
   render() {
+      const {theme} = this.params;
     const titleLayoutStyle =
       this.state.title.length > 20 ? {paddingRight: 30} : null;
     let navigationBar = (
@@ -92,7 +92,7 @@ export default class DetailPage extends Component {
         leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
         titleLayoutStyle={titleLayoutStyle}
         title={this.state.title}
-        style={{backgroundColor: THEME_COLOR}}
+        style={theme.styles.navBar}
         rightButton={this.renderRightButton()}
       />
     )
@@ -114,4 +114,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+    navBar: {
+        position: 'absolute',
+        left: 0,
+        right: 0
+    },
 });

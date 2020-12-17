@@ -23,7 +23,8 @@ export default class AboutPage extends Component{
         }
     }
     onClick(menu) {
-        let RouteName, params = {}
+        const {theme} = this.params;
+        let RouteName, params = {theme}
         switch (menu) {
             case MORE_MENU.Tutorial:
                 RouteName='WebViewPage'
@@ -52,7 +53,8 @@ export default class AboutPage extends Component{
         }
     }
     getItem(menu) {
-        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, THEME_COLOR)
+        const {theme} = this.params;
+        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, theme.themeColor)
     }
     render () {
         const content = <View>

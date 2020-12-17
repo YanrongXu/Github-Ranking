@@ -49,10 +49,11 @@ export default class WebViewPage extends Component {
     });
   }
   render() {
+    const {theme} = this.params
     let navigationBar = (
       <NavigationBar
         title={this.state.title}
-        style={{backgroundColor: THEME_COLOR}}
+        style={theme.styles.navBar}
         leftButton={ViewUtil.getLeftBackButton(() => this.onBackpress())}
       />
     );

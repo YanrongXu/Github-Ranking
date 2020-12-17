@@ -26,7 +26,6 @@ import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
-const THEME_COLOR = '#678';
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 
 
@@ -38,11 +37,11 @@ class PopularPage extends Component {
   }
   _genTabs() {
     const tabs = {};
-    const {keys} = this.props;
+    const {keys, theme} = this.props;
     keys.forEach((item, index) => {
       if (item.checked) {
         tabs[`tab${index}`] = {
-          screen: (props) => <PopularTabPage {...props} tabLabel={item.path} />,
+          screen: (props) => <PopularTabPage {...props} tabLabel={item.path} theme={theme} />,
           navigationOptions: {
             title: item.name,
           },
@@ -52,10 +51,10 @@ class PopularPage extends Component {
     return tabs;
   }
   render() {
-    const {keys} = this.props;
+    const {keys, theme} = this.props;
 
     let statusBar = {
-      backgroundColor: THEME_COLOR,
+      backgroundColor: theme.themeColor,
       barStyle: 'light-content',
     };
 
@@ -63,7 +62,7 @@ class PopularPage extends Component {
       <NavigationBar
         title={'Hot'}
         statusBar={statusBar}
-        style={{backgroundColor: THEME_COLOR}}
+        style={theme.styles.navBar}
       />
     );
     const TabNavigator = keys.length ?  createAppContainer(
@@ -73,7 +72,8 @@ class PopularPage extends Component {
           upperCaseLabel: false,
           scrollEnabled: true,
           style: {
-            backgroundColor: '#a67',
+            backgroundColor: theme.themeColor,
+            height: 50
           },
           indicatorStyle: styles.indicatorStyle,
           labelStyle: styles.labelStyle,
@@ -93,6 +93,7 @@ class PopularPage extends Component {
 
 const mapPopularStateToProps = state =>({
   keys: state.language.keys,
+  theme: state.theme.theme
 })
 
 const mapPopularDispatchToProps = dispatch => ({
@@ -187,12 +188,15 @@ class PopularTab extends Component {
   }
   renderItem(data) {
     const item = data.item;
+    const {theme} = this.props
     return (
       <PopularItem
         projectModel={item}
+        theme={theme}
         onSelect={(callback) => {
           NavigationUtil.goPage(
             {
+              theme,
               projectModel: item,
               flag: FLAG_STORAGE.flag_popular,
               callback,
@@ -222,6 +226,7 @@ class PopularTab extends Component {
 
   render() {
     let store = this._store();
+    const {theme} = this.props
     return (
       <View style={styles.container}>
         <FlatList
@@ -231,11 +236,11 @@ class PopularTab extends Component {
           refreshControl={
             <RefreshControl
               title={'Loading'}
-              titleColor={THEME_COLOR}
-              colors={[THEME_COLOR]}
+              titleColor={theme.themeColor}
+              colors={[theme.themeColor]}
               refreshing={store.isLoading}
               onRefresh={() => this.loadData()}
-              tintColor={THEME_COLOR}
+              tintColor={theme.themeColor}
             />
           }
           ListFooterComponent={() => this.genIndicator()}
