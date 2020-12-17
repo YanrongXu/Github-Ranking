@@ -37,6 +37,14 @@ class MyPage extends Component{
                 params.isRemoveKey = menu === MORE_MENU.Remove_Key
                 params.flag = menu !== MORE_MENU.Custom_Language ? FLAG_LANGUAGE.flag_key : FLAG_LANGUAGE.flag_language
                 break
+            case MORE_MENU.Sort_Key:
+                RouteName = 'SortKeyPage'
+                params.flag = FLAG_LANGUAGE.flag_key
+                break
+            case MORE_MENU.Sort_Language:
+                RouteName = 'SortKeyPage'
+                params.flag = FLAG_LANGUAGE.flag_language
+                break
         }
         if (RouteName) {
             NavigationUtil.goPage(params, RouteName)
