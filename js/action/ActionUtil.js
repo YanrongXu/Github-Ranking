@@ -8,6 +8,7 @@ export function handleData(
   data,
   pageSize,
   favoriteDao,
+  params
 ) {
   let fixItems = [];
   if (data && data.data) {
@@ -26,6 +27,7 @@ export function handleData(
       projectModels: projectModels,
       storeName,
       pageIndex: 1,
+      ...params,
     });
   });
 }
@@ -44,7 +46,11 @@ export async function _projectModels(showItems, favoriteDao, callback) {
       new ProjectModel(showItems[i], Utils.checkFavorite(showItems[i], keys)),
     );
   }
-  if (typeof callback === 'function') {
-    callback(projectModels);
+  doCallBack(callback, projectModels)
+}
+
+export const doCallBack = (callBack, object) => {
+  if (typeof callBack === 'function') {
+    callBack(object)
   }
 }
