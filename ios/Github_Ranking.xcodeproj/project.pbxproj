@@ -20,6 +20,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B64821816EFF0CC3BC21FA26 /* libPods-Github_Ranking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A05704EE6CCAB9931EE4CDA /* libPods-Github_Ranking.a */; };
 		BB82B56BC15F9396C2739BB9 /* libPods-Github_Ranking-Github_RankingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FCF330941F1E84121E563D1 /* libPods-Github_Ranking-Github_RankingTests.a */; };
+		EA4967532593693B00FDB8FD /* Github Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA4967522593693B00FDB8FD /* Github Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		9FCF330941F1E84121E563D1 /* libPods-Github_Ranking-Github_RankingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Github_Ranking-Github_RankingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52E7DC3BFFBF6AD9D4A5A24 /* Pods-Github_Ranking-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Github_Ranking-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Github_Ranking-tvOSTests/Pods-Github_Ranking-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D39A4F1E74F764CA25AA2108 /* Pods-Github_Ranking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Github_Ranking.debug.xcconfig"; path = "Target Support Files/Pods-Github_Ranking/Pods-Github_Ranking.debug.xcconfig"; sourceTree = "<group>"; };
+		EA4967522593693B00FDB8FD /* Github Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Github Launch Screen.storyboard"; sourceTree = "<group>"; };
 		ED0A58E8605B683F89854103 /* libPods-Github_Ranking-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Github_Ranking-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -132,6 +134,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				EA4967522593693B00FDB8FD /* Github Launch Screen.storyboard */,
 			);
 			name = Github_Ranking;
 			sourceTree = "<group>";
@@ -194,7 +197,6 @@
 				B52E7DC3BFFBF6AD9D4A5A24 /* Pods-Github_Ranking-tvOSTests.debug.xcconfig */,
 				99CFDDA01056100D08802CEA /* Pods-Github_Ranking-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -341,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				EA4967532593693B00FDB8FD /* Github Launch Screen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -717,7 +720,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D39A4F1E74F764CA25AA2108 /* Pods-Github_Ranking.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
@@ -740,7 +742,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3B65415C4757EB7B33CEA640 /* Pods-Github_Ranking.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Github_Ranking/Info.plist;
