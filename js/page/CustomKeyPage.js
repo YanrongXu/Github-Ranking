@@ -15,7 +15,7 @@ import ViewUtil from "../util/ViewUtil";
 import CheckBox from 'react-native-check-box'
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ArrayUtil from "../util/ArrayUtil";
-const THEME_COLOR = '#678';
+import SafeAreaViewPlus from "../common/SafeAreaViewPlus";
 
 
 class CustomKeyPage extends Component {
@@ -163,12 +163,15 @@ class CustomKeyPage extends Component {
         style={theme.styles.navBar}
         rightButton={ViewUtil.getRightButton(rightButtonTitle, () => this.onSave())}
       />
-    return <View style={styles.container}>
+    return <SafeAreaViewPlus
+      style={styles.container}
+      topColor={theme.themeColor}
+    >
       {navigationBar}
       <ScrollView>
         {this.renderView()}
       </ScrollView>
-    </View>
+    </SafeAreaViewPlus>
   }
 }
 

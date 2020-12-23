@@ -145,11 +145,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(MyPage)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
+        marginTop: 30
     },
     about_left: {
         alignItems: 'center',

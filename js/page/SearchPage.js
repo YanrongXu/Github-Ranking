@@ -3,17 +3,14 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   FlatList,
   RefreshControl,
   ActivityIndicator,
-  DeviceEventEmitter,
     Platform,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    DeviceInfo
 } from 'react-native';
-import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
-import {createAppContainer} from 'react-navigation';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {connect} from 'react-redux';
 import actions from '../action/index';
@@ -178,7 +175,8 @@ class SearchPage extends Component {
       placeholder={placeholder}
       onChangeText={text => this.inputKey = text}
       style={styles.textInput}
-    ></TextInput>
+    >
+    </TextInput>
     let rightButton =
         <TouchableOpacity
           onPress={() => {
@@ -292,11 +290,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
   tabStyle: {
     // minWidth: 50
     padding: 0,
@@ -307,8 +300,7 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 13,
-    marginTop: 6,
-    marginBottom: 6,
+    margin: 0,
   },
   indicatorContainer: {
     alignItems: 'center',
@@ -327,7 +319,7 @@ const styles = StyleSheet.create({
     height: 40,
     position: 'absolute',
     left: 10,
-    top: GlobalStyles.window_height - 130,
+    top: GlobalStyles.window_height - 45 - (DeviceInfo.isIPhoneX_deprecated ? 34 : 0),
     right: 10,
     borderRadius: 3
   },

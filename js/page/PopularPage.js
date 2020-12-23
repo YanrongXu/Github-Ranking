@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   FlatList,
   RefreshControl,
   ActivityIndicator,
@@ -22,7 +21,6 @@ import FavoriteDao from '../expand/dao/FavoriteDao';
 import {FLAG_STORAGE} from '../expand/dao/DataStore';
 import FavoriteUtil from '../util/FavoriteUtil';
 import EventTypes from '../util/EventTypes';
-import {onFlushPopularFavorite} from '../action/popular';
 import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -334,11 +332,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
   tabStyle: {
     // minWidth: 50
     padding: 0,
@@ -349,8 +342,7 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 13,
-    marginTop: 6,
-    marginBottom: 6,
+    margin: 0
   },
   indicatorContainer: {
     alignItems: 'center',

@@ -19,7 +19,6 @@ import FavoriteUtil from "../util/FavoriteUtil";
 import EventTypes from "../util/EventTypes";
 import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 import ArrayUtil from "../util/ArrayUtil";
-const SINCE = '&since=daliy'
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending)
 
 
@@ -309,13 +308,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
     tabStyle: {
-        minWidth: 50
+        padding: 0,
     },
     indicatorStyle: {
         height: 2,
@@ -323,8 +317,7 @@ const styles = StyleSheet.create({
     },
     labelStyle: {
         fontSize: 13,
-        marginTop:6,
-        marginBottom: 6
+        margin: 0,
     },
     indicatorContainer: {
         alignItems: 'center'

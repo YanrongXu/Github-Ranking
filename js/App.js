@@ -12,18 +12,9 @@ export default class App extends Component{
          * let the store dispatch to App class
          */
         return <Provider store={store}>
-            <SafeAreaView style={styles.container}>
                 <AppNavigator />
-            </SafeAreaView>
             <Toast ref={(ref) => Toast.setRef(ref)} />
 
         </Provider>
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'gray'
-    }
-})

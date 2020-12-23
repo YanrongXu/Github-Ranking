@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, DeviceInfo} from 'react-native';
 import NavigationBar from '../common/NavigationBar';
 import ViewUtil from '../util/ViewUtil';
 
 import {WebView} from 'react-native-webview';
 import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
-const THEME_COLOR = '#678';
+import SafeAreaViewPlus from "../common/SafeAreaViewPlus";
+import GlobalStyles from "../res/styles/GlobalStyles";
 
 export default class WebViewPage extends Component {
   constructor(props) {
@@ -58,7 +59,10 @@ export default class WebViewPage extends Component {
       />
     );
     return (
-      <View style={styles.container}>
+      <SafeAreaViewPlus
+        style={GlobalStyles.root_container}
+        topColor={theme.themeColor}
+      >
         {navigationBar}
         <WebView
           ref={(webView) => (this.webView = webView)}
@@ -66,7 +70,7 @@ export default class WebViewPage extends Component {
           onNavigationStateChange={(e) => this.onNavigationStateChange(e)}
           source={{uri: this.state.url}}
         />
-      </View>
+      </SafeAreaViewPlus>
     );
   }
 }
@@ -74,5 +78,6 @@ export default class WebViewPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: DeviceInfo.isIPhoneX_deprecated ? 30 : 0
   },
 });

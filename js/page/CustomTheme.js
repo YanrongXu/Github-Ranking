@@ -1,17 +1,15 @@
 import React, {Component} from 'react';
 import {
   View,
-  ViewPropTypes,
   Text,
-  StatusBar,
   StyleSheet,
   Platform,
   Modal,
   TouchableHighlight,
-    ScrollView
+    ScrollView,
+    DeviceInfo
 } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import TimeSpan from '../model/TimeSpan';
+
 import ThemeDao from "../expand/dao/ThemeDao";
 import GlobalStyles from "../res/styles/GlobalStyles";
 import ThemeFactory, {ThemeFlags} from "../res/styles/ThemeFactory";
@@ -102,7 +100,8 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     margin: 10,
-    marginTop: Platform.OS === 'ios' ? 20 : 10,
+    marginBottom: 10 + (DeviceInfo.isIPhoneX_deprecated ? 24 : 0),
+    marginTop: Platform.OS === 'ios' ? 20 + (DeviceInfo.isIPhoneX_deprecated ? 24 : 0) : 10,
     backgroundColor: 'white',
     borderRadius: 3,
     shadowColor: 'gray',

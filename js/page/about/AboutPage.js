@@ -6,7 +6,6 @@ import ViewUtil from '../../util/ViewUtil';
 import NavigationUtil from '../../navigator/NavigationUtil';
 import AboutCommon, {FLAG_ABOUT} from './AboutCommon';
 import config from '../../res/data/github_app_config';
-const THEME_COLOR = '#678';
 
 export default class AboutPage extends Component{
     constructor(props) {

@@ -13,14 +13,11 @@ import NavigationBar from '../common/NavigationBar';
 import LanguageDao, {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 import BackPressComponent from "../common/BackPressComponent";
 import ViewUtil from "../util/ViewUtil";
-import CheckBox from 'react-native-check-box'
-import Ionicons from "react-native-vector-icons/Ionicons";
 import ArrayUtil from "../util/ArrayUtil";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import SortableListView from 'react-native-sortable-listview-newer'
-const THEME_COLOR = '#678';
-
-
+import SafeAreaViewPlus from "../common/SafeAreaViewPlus";
+import GlobalStyles from "../res/styles/GlobalStyles";
 
 class SortKeyPage extends Component {
   constructor(props) {
@@ -130,7 +127,10 @@ class SortKeyPage extends Component {
         style={theme.styles.navBar}
         rightButton={ViewUtil.getRightButton('Save', () => this.onSave())}
       />
-    return <View style={styles.container}>
+    return <SafeAreaViewPlus
+      style={GlobalStyles.root_container}
+      topColor={theme.themeColor}
+    >
       {navigationBar}
       <SortableListView
           data={this.state.checkedArray}
@@ -141,7 +141,7 @@ class SortKeyPage extends Component {
           }}
           renderRow={row => <SortCell data={row} {...this.params}/>}
       />
-    </View>
+    </SafeAreaViewPlus>
   }
 }
 

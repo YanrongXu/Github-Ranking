@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native';
-import NavigationBar from '../common/NavigationBar';
+import NavigationBar, {NAVIGATION_BAR_HEIGHT} from '../common/NavigationBar';
 import ViewUtil from '../util/ViewUtil';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {WebView} from 'react-native-webview';
 import NavigationUtil from '../navigator/NavigationUtil';
 import BackPressComponent from '../common/BackPressComponent';
 import FavoriteDao from '../expand/dao/FavoriteDao';
+import SafeAreaViewPlus from "../common/SafeAreaViewPlus";
 
 export default class DetailPage extends Component {
   constructor(props) {
@@ -92,31 +93,35 @@ export default class DetailPage extends Component {
         leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
         titleLayoutStyle={titleLayoutStyle}
         title={this.state.title}
-        style={theme.styles.navBar}
+        style={[styles.navBar, theme.styles.navBar]}
         rightButton={this.renderRightButton()}
       />
     )
     return (
-      <View style={styles.container}>
-        {navigationBar}
-        <WebView
-          ref={(webView) => (this.webView = webView)}
-          startInLoadingState={true}
-          onNavigationStateChange={(e) => this.onNavigationStateChange(e)}
-          source={{uri: this.state.url}}
-        />
-      </View>
+        <SafeAreaViewPlus
+        topColor={theme.themeColor}>
+          <View style={styles.container}>
+            <WebView
+                style={{marginTop: NAVIGATION_BAR_HEIGHT}}
+              ref={(webView) => (this.webView = webView)}
+              startInLoadingState={true}
+              onNavigationStateChange={(e) => this.onNavigationStateChange(e)}
+              source={{uri: this.state.url}}
+            />
+              {navigationBar}
+          </View>
+        </SafeAreaViewPlus>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+    container: {
+        flex: 1,
+    },
     navBar: {
         position: 'absolute',
         left: 0,
         right: 0
-    },
+    }
 });
